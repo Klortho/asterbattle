@@ -1,0 +1,15 @@
+{
+  "name": "asterbattle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "WTFPL",
+  "dependencies": {
+    "fs-extra": "^11.1.1",
+    "ws": "^8.14.2"
+  }
+}
