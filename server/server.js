@@ -17,49 +17,72 @@ const extensions = {
     encoding: 'utf-8',
     contentType: 'text/css',
   },
-  js: {
-    encoding: 'utf-8',
-    contentType: 'text/javascript',
+  ico: {
+    encoding: null,
+    contentType: 'image/vnd.microsoft.icon',
   },
   jpg: {
     encoding: null,
     contentType: 'image/jpeg',
   },
+  js: {
+    encoding: 'utf-8',
+    contentType: 'text/javascript',
+  },
+  json: {
+    encoding: 'utf-8',
+    contentType: 'application/json',
+  },
   mp3: {
     encoding: null,
     contentType: 'audio/mpeg',
+  },
+  png: {
+    encoding: null,
+    contentType: 'image/png',
+  },
+  webmanifest: {
+    encoding: 'utf-8',
+    contentType: 'application/manifest+json',
   },
 };
 
 // this recursively reads a client directory, and returns an
 // array of {path, encoding, contentType, content}, where `path` is relative
 // to the clientDir.
-const readClientTree = relPath => {
-  const dirents = fs.readdirSync(
-    path.join(clientDir, relPath),
-    { withFileTypes: true }
-  );
-  const files = [];
-  dirents.forEach(dirent => {
-    const newPath = path.join(relPath, dirent.name);
-    if (dirent.isFile()) {
-      const ext = path.extname(dirent.name).slice(1);
-      const content = fs.readFileSync(
-        path.join(clientDir, newPath),
-        extensions[ext].encoding
-      );
+const readClientTree = () => {
+  const _readClientTree = relPath => {
+    const dirents = fs.readdirSync(
+      path.join(clientDir, relPath),
+      { withFileTypes: true }
+    );
+    const files = [];
+    dirents.forEach(dirent => {
+      const newPath = path.join(relPath, dirent.name);
+      if (dirent.isFile()) {
+        const ext = path.extname(dirent.name).slice(1);
+        const content = fs.readFileSync(
+          path.join(clientDir, newPath),
+          extensions[ext].encoding
+        );
 
-      files.push({
-        path: newPath,
-        ...extensions[ext],
-        content,
-      });
-    }
-    else if (dirent.isDirectory()) {
-      files.push(...readClientTree(newPath));
-    }
-  });
-  return files;
+        files.push({
+          path: newPath,
+          ...extensions[ext],
+          content,
+        });
+      }
+      else if (dirent.isDirectory()) {
+        files.push(..._readClientTree(newPath));
+      }
+    });
+    return files;
+  };
+  const clientTree = _readClientTree('');
+  clientTree.byPath = Object.fromEntries(
+    clientTree.map(cf => [cf.path, cf])
+  );
+  return clientTree;
 };
 
 
@@ -76,6 +99,10 @@ export const Server = opts => {
     'clientFiles:\n' +
     clientFiles.map(cf => `  ${cf.path}`).join('\n')
   );
+  console.log(
+    `favicon content:\n` +
+    clientFiles.byPath['favicon.ico']
+  )
 
   const reqHandler = (req, res) => {
     if (req.method === 'GET') {
