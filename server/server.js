@@ -125,16 +125,30 @@ export const Server = opts => {
   const server = http.createServer(reqHandler);
   const wss = new WebSocketServer({server});
 
-  wss.on('connection', function connection(ws) {
-    ws.on('error', console.error);
-    ws.on('message', function message(data) {
+  const players = [];
+
+  wss.on('connection', connection => {
+
+    players.push({
+      connection,
+      playerNum: players.length,
+    });
+    players.forEach(player => {
+      player.connection.send(JSON.stringify({
+        msg: 'waiting',
+        playerNum: player.playerNum,
+        numPlayers: players.length,
+      }));
+    });
+
+    connection.on('error', console.error.bind(console));
+    connection.on('message', data => {
       console.log('received: %s', data);
     });
-    ws.send('something');
   });
 
   server.listen(port, host, () => {
-    console.log(`Server started on host ${host}:${port}`);
+    console.log(`Server started on ${host}:${port}`);
   });
   return {
     server, wss,
