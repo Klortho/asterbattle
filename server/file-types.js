@@ -1,54 +1,54 @@
 export const extensions = {
   html: {
     encoding: 'utf-8',
-    contentType: 'text/html',
+    contentType: 'text/html'
   },
   css: {
     encoding: 'utf-8',
-    contentType: 'text/css',
+    contentType: 'text/css'
   },
   ico: {
     encoding: null,
-    contentType: 'image/vnd.microsoft.icon',
+    contentType: 'image/vnd.microsoft.icon'
   },
   jpg: {
     encoding: null,
-    contentType: 'image/jpeg',
+    contentType: 'image/jpeg'
   },
   js: {
     encoding: 'utf-8',
-    contentType: 'text/javascript',
+    contentType: 'text/javascript'
   },
   json: {
     encoding: 'utf-8',
-    contentType: 'application/json',
+    contentType: 'application/json'
   },
   mp3: {
     encoding: null,
-    contentType: 'audio/mpeg',
+    contentType: 'audio/mpeg'
   },
   png: {
     encoding: null,
-    contentType: 'image/png',
+    contentType: 'image/png'
   },
   ttf: {
     encoding: null,
-    contentType: 'font/ttf',
+    contentType: 'font/ttf'
   },
   txt: {
     encoding: 'utf-8',
-    contentType: 'text/plain',
+    contentType: 'text/plain'
   },
   woff: {
     encoding: null,
-    contentType: 'font/woff',
+    contentType: 'font/woff'
   },
   woff2: {
     encoding: null,
-    contentType: 'font/woff2',
+    contentType: 'font/woff2'
   },
   zip: {
     encoding: null,
-    contentType: 'application/zip',
-  },
-};
+    contentType: 'application/zip'
+  }
+}
