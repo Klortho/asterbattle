@@ -2,23 +2,25 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <link rel='stylesheet' href='style.css' />
+    <link href='./fonts/geostar-fill/style.css' rel='stylesheet' />
+    <link rel='stylesheet' href='./style.css' />
     <title>Asterbattle</title>
     <script type='module' src='script.js'></script>
   </head>
   <body>
-    <div id='helloPage' class='html'>
-      <p>Welcome to Asterbattle!</p>
-      <p>
-        You are player #<span id='playerNum'>0</span>.
-      </p>
-      <p>
-        Number of players connected: <span id='numPlayers'>1</span>.
-      </p>
-      <p>
-        <input id='beginButton' type='button' value='Begin!'
-          style='display: none;' disabled />
-      </p>
+    <div id='content'>
+      <div id='mainHeader'>ASTERBATTLE</div>
+      <div id='selectCntrls'>
+        <div class='cntrlSelect'>
+          <input id='kbSelect' type='checkbox' />keyboard
+        </div>
+      </div>
+      <div id='startEnterDiv'>
+        <input id='startEnter' type='button'
+          style='display: none;' />
+      </div>
     </div>
+    <svg id='battleField' style='display: none;'>
+    </svg>
   </body>
 </html>

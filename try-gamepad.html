@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title></title>
+    <script type='module'>
+      window.addEventListener('gamepadconnected', evt => {
+        const {gamepad} = evt;
+        console.log(
+          'Gamepad connected at index %d: %s. %d buttons, %d axes.',
+          gamepad.index,
+          gamepad.id,
+          gamepad.buttons.length,
+          gamepad.axes.length,
+        );
+      });
+    </script>
+  </head>
+  <body>
+
+  </body>
+</html>

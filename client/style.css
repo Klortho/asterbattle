@@ -2,7 +2,72 @@ html, body {
   margin: 0;
   padding: 0;
   border: 0;
+  height: 100%;
 }
-div.html {
-  margin: 10pt;
+body {
+  overflow: hidden;
+  background-color: black;
 }
+#content {
+  height: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-around;
+  align-items: center;
+}
+#content > div {
+  text-align: center;
+  margin: 10px;
+}
+@keyframes zoomIn {
+  from {
+    font-size: 0pt;
+  }
+  to {
+    font-size: 48pt;
+  }
+}
+#mainHeader {
+  background-color: black;
+  font-family: 'Geostar Fill', serif;
+  font-size: 60px;
+  color: white;
+  animation-duration: 3s;
+  animation-name: zoomIn;
+  flex: 1;
+  display: flex;
+  /*flex-flow: row;*/
+  align-items: center;
+}
+#selectCntrls {
+  background-color: black;
+  font-family: 'Geostar Fill', serif;
+  font-size: 50px;
+  color: white;
+  flex: 2;
+  text-align: left;
+}
+div.cntrlSelect {
+  margin-bottom: 30px;
+}
+input[type=checkbox] {
+  transform: scale(2);
+  vertical-align: middle;
+  margin-right: 30px;
+}
+
+#startEnterDiv {
+  background-color: blue;
+  flex: 1;
+}
+/*
+div.button {
+  background-color: red;
+  flex: 2;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+*/

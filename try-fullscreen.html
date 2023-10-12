@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title></title>
+    <script type='module'>
+      const [border, button, svg] = ['border', 'button', 'svg']
+        .map(id => document.getElementById(id));
+      button.addEventListener('click', () => {
+        svg.requestFullscreen();
+      });
+      document.addEventListener('fullscreenchange', () => {
+        console.log('changed');
+        if (document.fullscreenElement) {
+          const {innerWidth: width, innerHeight: height} = window;
+          svg.setAttribute('width', width);
+          svg.setAttribute('height', height);
+          border.setAttribute('width', width - 10);
+          border.setAttribute('height', height - 10);
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <input id='button' type='button' value='fullscreen me' />
+    <svg id='svg' background='white'>
+      <rect id='border' x='5' y='5' rx='10' ry='10'
+        stroke='blue' stroke-width='10' fill='none' />
+    </svg>
+  </body>
+</html>
