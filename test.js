@@ -1,8 +1,8 @@
-import fetch from 'node-fetch';
-import Server from './server/server.js';
+import fetch from 'node-fetch'
+import Server from './server/server.js'
 
 
-const {wss, server} = Server();
+const {wss, server} = Server()
 
 /*
 setTimeout(

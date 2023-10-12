@@ -10,7 +10,7 @@ const packageDir = path.resolve(__dirname, '..');
 const defaults = {
   host: 'localhost',
   port: 8088,
-};
+}
 
 export const Server = _opts => {
   const opts = {...defaults, ..._opts};
@@ -59,6 +59,7 @@ export const Server = _opts => {
     console.log(`Server started on ${host}:${port}`);
   });
 
+>>>>>>> 0f5425c26edb8babb7f6152ced55105219b1b701
   return {
     opts, clientDir,
     server, wss,
@@ -66,4 +67,4 @@ export const Server = _opts => {
   };
 };
 
-export default Server;
+export default Server
