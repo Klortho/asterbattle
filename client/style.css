@@ -6,7 +6,6 @@ html, body {
 }
 body {
   overflow: hidden;
-  background-color: black;
 }
 #content {
   height: 100%;

@@ -36,7 +36,7 @@ const parseElemArgs = (...args) =>
       ? [args[0], parseKids(...args.slice(1))]
       : [{}, parseKids(...args)]
 
-export const setAttrs = (elem, attrs) => {
+export const setAttrs = (elem, attrs={}) => {
   Object.entries(attrs).forEach(([name, value]) => {
     elem.setAttribute(name, value)
   })

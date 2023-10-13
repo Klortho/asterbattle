@@ -4,10 +4,84 @@ import { KeyboardPlayer } from './player.js'
 const { WebSocket } = window
 
 
-const svg = d3.select('svg');
-const resizer = () => {
-  const {innerWidth: width, innerHeight: height} = window;
-};
+const textNode = (text, attrs) => {
+  const _attrs = {
+    'font-size': '38pt',
+    'font-family': 'Geostar Fill',
+    fill: 'white',
+    'dominant-baseline': 'middle',
+    'text-anchor': 'middle',
+    ...attrs
+  }
+  return d3.create('text').attrs(_attrs)
+    .text(text);
+}
+
+const zoomIn = (parent, x=0, y=0) => {
+  const posG = parent.append('g').attrs({
+    transform: `translate(${x} ${y})`
+  })
+  const scaleG = posG.append('g').attrs({
+    transform: `scale(0)`
+  })
+  scaleG.transition()
+    .attr('transform', 'scale(1)')
+    .duration(3000)
+  return {
+    posG, scaleG,
+    append(type) {
+      return scaleG.append(type)
+    }
+  }
+}
+const screen = (() => {
+  const svg = d3.select('svg')
+
+  const background = svg.append('rect').attrs({
+    x: 0, y: 0, fill: 'black', stroke: 'none',
+  })
+  const headerZoom = zoomIn(svg)
+  const header = headerZoom.node()
+    .appendChild(textNode('ASTERBATTLE').node());
+
+  const cntrlsG = svg.append('g')
+  const cntrlLines = [];
+  const addCntrlLine = text => {
+    const y = 40 * cntrlLines.length
+    const cntrlLine = zoomIn(cntrlsG, 0, y);
+    //cntrlLine.append(textNode(text))
+    cntrlLines.push(cntrlLine)
+  }
+  addCntrlLine('keyboard')
+
+
+  const _screen = {
+    width: null, height: null,
+    background,
+    headerZoom,
+    header,
+    cntrlsG,
+    cntrlLines,
+    resize() {
+      const width = this.width = window.innerWidth
+      const height = this.height = window.innerHeight
+      svg.attrs({width, height})
+      background.attrs({width, height})
+      headerZoom.posG.attrs({
+        transform: `translate(${width / 2} ${height / 10})`
+      })
+      cntrlsG.attrs({
+        transform: `translate(${width / 2} ${3 * height / 10})`
+      })
+    },
+  }
+  return _screen
+})();
+
+screen.resize()
+window.onresize = () => screen.resize();
+
+
 
 fetch('./opts.json')
   .then(res => res.json())
@@ -35,15 +109,8 @@ fetch('./opts.json')
       })
     })
   })
+/*
   .then(server => {
-    /*const svg = d3.select(svg);
-    const mainHeader = svg.append('text', {
-      x: 100, y: 100,
-      'font-size': '38pt'
-    })*/
-
-
-
     let nextPlayerId = 0
     const players = []
 
@@ -110,3 +177,4 @@ fetch('./opts.json')
       logGamepads(gamepad)
     })
   })
+*/
