@@ -21,29 +21,29 @@ body {
   margin: 10px;
 }
 @keyframes zoomIn {
-  from {
-    font-size: 0pt;
-  }
-  to {
-    font-size: 48pt;
-  }
+  from { scale 0; }
+  to { scale: 1; }
 }
 #mainHeader {
   background-color: black;
   font-family: 'Geostar Fill', serif;
   font-size: 60px;
   color: white;
-  animation-duration: 3s;
-  animation-name: zoomIn;
   flex: 1;
   display: flex;
   /*flex-flow: row;*/
   align-items: center;
 }
+.zoomed {
+  animation-duration: 3s;
+  animation-name: zoomIn;
+}
 #selectCntrls {
   background-color: black;
   font-family: 'Geostar Fill', serif;
-  font-size: 50px;
+  animation-duration: 3s;
+  animation-name: zoomIn;
+  font-size: 48pt;
   color: white;
   flex: 2;
   text-align: left;

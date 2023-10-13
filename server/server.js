@@ -17,7 +17,7 @@ export const Server = _opts => {
   const { host, port } = opts
 
   const clientDir = path.join(packageDir, 'client')
-  const server = StaticServer(clientDir, [
+  const staticServer = StaticServer(clientDir, [
     {
       match: req => req.method === 'GET' && req.url === '/opts.json',
       handler: (req, res) => {
@@ -27,7 +27,7 @@ export const Server = _opts => {
       }
     }
   ])
-  const wss = new WebSocketServer({ server })
+  const wss = new WebSocketServer({ server: staticServer })
 
   let nextClientId = 0
   const clients = new Set()
@@ -40,7 +40,7 @@ export const Server = _opts => {
   const players = new Set()
 
   wss.on('connection', connection => {
-    const clientId = 'client-' + nextClientId++
+    const clientId = 'c' + nextClientId++
     console.log(`established connection, new client ${clientId}`)
     const client = Peer(clientId, connection, {
       players: new Set()
@@ -56,18 +56,19 @@ export const Server = _opts => {
     })
   })
 
-  server.listen(port, host, () => {
+  staticServer.listen(port, host, () => {
     console.log(`Server started on ${host}:${port}`)
   })
 
-  return {
+  const server = {
     opts,
     clientDir,
-    server,
+    staticServer,
     wss,
     clients,
     players
   }
+  return server
 }
 
 export default Server

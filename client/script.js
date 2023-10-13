@@ -1,20 +1,25 @@
-import { addKids, HTML } from './markup.js'
+import d3 from './lib/d3-multi.js'
 import { Peer } from './peer.js'
 import { KeyboardPlayer } from './player.js'
-const { div, input } = HTML
 const { WebSocket } = window
+
+
+const svg = d3.select('svg');
+const resizer = () => {
+  const {innerWidth: width, innerHeight: height} = window;
+};
 
 fetch('./opts.json')
   .then(res => res.json())
   .then(opts => {
     const { host, port } = opts
 
-    const serverP = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const connection = new WebSocket(`ws://${host}:${port}`)
 
       connection.addEventListener('open', evt => {
         console.log('Connected to the server')
-        const server = Peer('server', connection)
+        const server = Peer('s', connection)
         server.send('newClient')
 
         const helloListener = msg => {
@@ -29,20 +34,25 @@ fetch('./opts.json')
         server.addMessageListener(helloListener)
       })
     })
+  })
+  .then(server => {
+    /*const svg = d3.select(svg);
+    const mainHeader = svg.append('text', {
+      x: 100, y: 100,
+      'font-size': '38pt'
+    })*/
 
-    const elem = Object.fromEntries(
-      ['mainHeader', 'selectCntrls', 'kbSelect',
-        'startEnterDiv', 'battleField'
-      ].map(tag => [tag, document.getElementById(tag)])
-    )
 
+
+    let nextPlayerId = 0
     const players = []
 
     const { kbSelect } = elem
     kbSelect.checked = false
     kbSelect.addEventListener('change', evt => {
       if (kbSelect.checked) {
-        const p = new KeyboardPlayer(serverP)
+        const pid = `${server.myId}-p${nextPlayerId++}`
+        const p = new KeyboardPlayer(pid, server)
         players.push(p)
       } else {
         const pi = players.findIndex(
